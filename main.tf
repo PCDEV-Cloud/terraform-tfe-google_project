@@ -15,7 +15,7 @@ resource "random_string" "suffix" {
 module "google_folders" {
   source = "github.com/PCDEV-Cloud/terraform-google-organization//modules/folders"
 
-  parent  = var.google_parent
+  parent  = var.google_config.parent
   folders = [{ display_name = var.name }]
 }
 
@@ -33,7 +33,7 @@ module "google_project" {
   billing_account        = try(var.google_config.projects[each.value].billing_account, null)
   skip_delete            = try(var.google_config.projects[each.value].skip_delete, false)
   create_default_network = try(var.google_config.projects[each.value].create_default_network, true)
-  labels                 = merge(local.naming[each.value].google_project.labels, try(var.google_projects_config[each.value].labels, {}))
+  labels                 = merge(local.naming[each.value].google_project.labels, try(var.google_config.projects[each.value].labels, {}))
 
   depends_on = [
     module.google_folders
@@ -48,7 +48,7 @@ module "google_iam-tfe-oidc" {
 
   access_configuration = [
     {
-      organization    = var.tfe_organization
+      organization    = var.tfe_config.organization
       project         = var.name
       workspaces      = [module.google_project[each.key].project_id]
       split_run_phase = false
@@ -63,7 +63,7 @@ module "google_iam-tfe-oidc" {
 module "tfe_project" {
   source = "github.com/PCDEV-Cloud/terraform-tfe-tfe_project"
 
-  organization = var.tfe_organization
+  organization = var.tfe_config.organization
   name         = var.name
 }
 
@@ -71,15 +71,15 @@ module "tfe_workspace" {
   source   = "github.com/PCDEV-Cloud/terraform-tfe-tfe_workspace"
   for_each = toset(var.environments)
 
-  organization                = var.tfe_organization
+  organization                = var.tfe_config.organization
   project                     = module.tfe_project.name
   name                        = module.google_project[each.key].project_id
-  description                 = try(var.tfe_workspaces_config[each.value].description, "The ${upper(each.key)} environment of ${var.name} project.")
-  execution_mode              = try(var.tfe_workspaces_config[each.value].execution_mode, "remote")
-  apply_method                = try(var.tfe_workspaces_config[each.value].apply_method, "auto")
-  terraform_version           = try(var.tfe_workspaces_config[each.value].terraform_version, "1.5.5")
-  terraform_working_directory = try(var.tfe_workspaces_config[each.value].terraform_working_directory, "/terraform")
-  tags                        = concat(local.naming[each.value].tfe_workspace.tags, try(var.tfe_workspaces_config[each.value].tags, []))
+  description                 = try(var.tfe_config.workspaces[each.value].description, "The ${upper(each.key)} environment of ${var.name} project.")
+  execution_mode              = try(var.tfe_config.workspaces[each.value].execution_mode, "remote")
+  apply_method                = try(var.tfe_config.workspaces[each.value].apply_method, "auto")
+  terraform_version           = try(var.tfe_config.workspaces[each.value].terraform_version, "1.5.5")
+  terraform_working_directory = try(var.tfe_config.workspaces[each.value].terraform_working_directory, "/terraform")
+  tags                        = concat(local.naming[each.value].tfe_workspace.tags, try(var.tfe_config.workspaces[each.value].tags, []))
 
   # version_control = {
   #   name                        = "GitHub"

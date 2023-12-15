@@ -31,25 +31,25 @@ variable "environments" {
   # Only letters and numbers
 }
 
-variable "google_parent" {
-  type        = string
-  description = ""
-}
+# variable "google_parent" {
+#   type        = string
+#   description = ""
+# }
 
-variable "google_projects_config" {
-  default     = null
-  description = ""
-}
+# variable "google_projects_config" {
+#   default     = null
+#   description = ""
+# }
 
-variable "tfe_organization" {
-  type        = string
-  description = ""
-}
+# variable "tfe_organization" {
+#   type        = string
+#   description = ""
+# }
 
-variable "tfe_workspaces_config" {
-  default     = null
-  description = ""
-}
+# variable "tfe_workspaces_config" {
+#   default     = null
+#   description = ""
+# }
 
 variable "google_config" {
   type = object({
