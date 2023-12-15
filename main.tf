@@ -112,12 +112,12 @@ module "tfe_workspace" {
     },
     {
       key      = "TFC_GCP_RUN_SERVICE_ACCOUNT_EMAIL"
-      value    = module.iam-tfe-oidc[each.key].apply_service_account_emails[0]
+      value    = module.google_iam-tfe-oidc[each.key].apply_service_account_emails[0]
       category = "env"
     },
     {
       key      = "TFC_GCP_WORKLOAD_PROVIDER_NAME"
-      value    = module.iam-tfe-oidc[each.key].provider_names[0]
+      value    = module.google_iam-tfe-oidc[each.key].provider_names[0]
       category = "env"
     }
   ]
