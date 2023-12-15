@@ -40,8 +40,8 @@ module "google_project" {
   ]
 }
 
-module "iam-tfe-oidc" {
-  source   = "./modules/iam-tfe-oidc"
+module "google_iam-tfe-oidc" {
+  source   = "github.com/PCDEV-Cloud/terraform-google-iam//modules/iam-tfe-oidc"
   for_each = toset(var.environments)
 
   project = module.google_project[each.key].project_id
