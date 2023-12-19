@@ -1,12 +1,12 @@
-resource "random_string" "suffix" {
-  count = var.randomize_name ? 1 : 0
+# resource "random_string" "suffix" {
+#   count = var.randomize_name ? 1 : 0
 
-  length  = 6
-  numeric = true
-  lower   = false
-  upper   = false
-  special = false
-}
+#   length  = 6
+#   numeric = true
+#   lower   = false
+#   upper   = false
+#   special = false
+# }
 
 ################################################################################
 # Google Cloud - Folders & Projects
@@ -25,7 +25,7 @@ module "google_project" {
 
   name                 = local.naming[each.value].google_project.name
   project_id           = local.naming[each.value].google_project.project_id
-  randomize_project_id = false
+  randomize_project_id = var.randomize_name
   parent               = module.google_folders.folders[0].name
   # billing_account        = try(var.google_projects_config[each.value].billing_account, null)
   # skip_delete            = try(var.google_projects_config[each.value].skip_delete, false)
