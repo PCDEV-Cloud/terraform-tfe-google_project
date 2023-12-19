@@ -3,14 +3,14 @@
 ################################################################################
 
 module "google_folders" {
-  source = "github.com/PCDEV-Cloud/terraform-google-organization//modules/folders"
+  source = "github.com/PCDEV-Cloud/terraform-google-organization//modules/folders?ref=v1.0.1"
 
   parent  = var.google_config.parent
   folders = [{ display_name = var.name }]
 }
 
 module "google_project" {
-  source   = "github.com/PCDEV-Cloud/terraform-google-organization//modules/project"
+  source   = "github.com/PCDEV-Cloud/terraform-google-organization//modules/project?ref=v1.0.1"
   for_each = toset(var.environments)
 
   name                   = local.naming[each.value].google_project.name
@@ -52,14 +52,14 @@ module "google_iam-tfe-oidc" {
 ################################################################################
 
 module "tfe_project" {
-  source = "github.com/PCDEV-Cloud/terraform-tfe-tfe_project"
+  source = "github.com/PCDEV-Cloud/terraform-tfe-tfe_project?ref=v1.2.0"
 
   organization = var.tfe_config.organization
   name         = var.name
 }
 
 module "tfe_workspace" {
-  source   = "github.com/PCDEV-Cloud/terraform-tfe-tfe_workspace"
+  source   = "github.com/PCDEV-Cloud/terraform-tfe-tfe_workspace?ref=v1.2.0"
   for_each = toset(var.environments)
 
   organization                = var.tfe_config.organization
