@@ -1,13 +1,3 @@
-# resource "random_string" "suffix" {
-#   count = var.randomize_name ? 1 : 0
-
-#   length  = 6
-#   numeric = true
-#   lower   = false
-#   upper   = false
-#   special = false
-# }
-
 ################################################################################
 # Google Cloud - Folders & Projects
 ################################################################################
@@ -23,13 +13,10 @@ module "google_project" {
   source   = "github.com/PCDEV-Cloud/terraform-google-organization//modules/project"
   for_each = toset(var.environments)
 
-  name                 = local.naming[each.value].google_project.name
-  project_id           = local.naming[each.value].google_project.project_id
-  randomize_project_id = var.randomize_name
-  parent               = module.google_folders.folders[0].name
-  # billing_account        = try(var.google_projects_config[each.value].billing_account, null)
-  # skip_delete            = try(var.google_projects_config[each.value].skip_delete, false)
-  # create_default_network = try(var.google_projects_config[each.value].create_default_network, true)
+  name                   = local.naming[each.value].google_project.name
+  project_id             = local.naming[each.value].google_project.project_id
+  randomize_project_id   = var.randomize_name
+  parent                 = module.google_folders.folders[0].name
   billing_account        = try(var.google_config.projects[each.value].billing_account, null)
   skip_delete            = try(var.google_config.projects[each.value].skip_delete, false)
   create_default_network = try(var.google_config.projects[each.value].create_default_network, true)
@@ -44,7 +31,6 @@ module "google_iam-tfe-oidc" {
   source   = "github.com/PCDEV-Cloud/terraform-google-iam//modules/iam-tfe-oidc"
   for_each = toset(var.environments)
 
-  # project = local.naming[each.value].google_project.project_id
   project = module.google_project[each.value].id
 
   access_configuration = [
