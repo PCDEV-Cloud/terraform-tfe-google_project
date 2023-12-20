@@ -11,7 +11,8 @@ locals {
     }
 
     tfe_workspace = {
-      tags = [for tag in ["google", i, var.name] : lower(replace(tag, "/\\s/", "-"))] # Replace all upper letters to lower and inner spaces to dashes.
+      terraform_working_directory = format("/terraform/google/projects/%s", lower(replace(var.name, "/[\\s]/", "-")))
+      tags                        = [for tag in ["google", i, var.name] : lower(replace(tag, "/\\s/", "-"))] # Replace all upper letters to lower and inner spaces to dashes.
     }
   } }
 }

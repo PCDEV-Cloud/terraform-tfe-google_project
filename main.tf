@@ -77,7 +77,7 @@ module "tfe_workspace" {
   execution_mode              = try(var.tfe_config.workspaces[each.value].execution_mode, "remote")
   apply_method                = try(var.tfe_config.workspaces[each.value].apply_method, "auto")
   terraform_version           = try(var.tfe_config.workspaces[each.value].terraform_version, "1.5.5")
-  terraform_working_directory = try(var.tfe_config.workspaces[each.value].terraform_working_directory, "/terraform")
+  terraform_working_directory = try(var.tfe_config.workspaces[each.value].terraform_working_directory, local.naming[each.value].tfe_workspace.terraform_working_directory)
   tags                        = concat(local.naming[each.value].tfe_workspace.tags, try(var.tfe_config.workspaces[each.value].tags, []))
 
   # version_control = {
