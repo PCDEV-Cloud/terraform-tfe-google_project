@@ -3,24 +3,32 @@
 ################################################################################
 
 module "google_folders" {
-  source = "github.com/PCDEV-Cloud/terraform-google-organization//modules/folders?ref=v1.0.1"
+  source = "github.com/PCDEV-Cloud/terraform-google-organization//modules/folders?ref=v1.1.0"
 
   parent  = var.google_config.parent
   folders = [{ display_name = var.name }]
 }
 
 module "google_project" {
-  source   = "github.com/PCDEV-Cloud/terraform-google-organization//modules/project?ref=v1.0.1"
+  source   = "github.com/PCDEV-Cloud/terraform-google-organization//modules/project?ref=v1.1.0"
   for_each = toset(var.environments)
 
-  name                   = local.naming[each.value].google_project.name
-  project_id             = local.naming[each.value].google_project.project_id
-  randomize_project_id   = var.randomize_name
-  parent                 = module.google_folders.folders[0].name
-  billing_account        = try(var.google_config.projects[each.value].billing_account, null)
-  skip_delete            = try(var.google_config.projects[each.value].skip_delete, false)
-  create_default_network = try(var.google_config.projects[each.value].create_default_network, true)
-  labels                 = merge(local.naming[each.value].google_project.labels, try(var.google_config.projects[each.value].labels, {}))
+  name                     = local.naming[each.value].google_project.name
+  project_id               = local.naming[each.value].google_project.project_id
+  randomize_project_id     = var.randomize_name
+  parent                   = module.google_folders.folders[0].name
+  billing_account          = try(var.google_config.projects[each.value].billing_account, null)
+  skip_delete              = try(var.google_config.projects[each.value].skip_delete, false)
+  create_default_network   = try(var.google_config.projects[each.value].create_default_network, true)
+  labels                   = merge(local.naming[each.value].google_project.labels, try(var.google_config.projects[each.value].labels, {}))
+  enable_apis_and_services = true
+
+  apis_and_services = [
+    "cloudresourcemanager.googleapis.com",
+    "iamcredentials.googleapis.com",
+    "iam.googleapis.com",
+    "sts.googleapis.com"
+  ]
 
   depends_on = [
     module.google_folders
