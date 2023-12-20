@@ -39,7 +39,7 @@ module "google_iam-tfe-oidc" {
   source   = "github.com/PCDEV-Cloud/terraform-google-iam//modules/iam-tfe-oidc"
   for_each = toset(var.environments)
 
-  project = module.google_project[each.value].id
+  project = module.google_project[each.value].project_id
 
   access_configuration = [
     {
