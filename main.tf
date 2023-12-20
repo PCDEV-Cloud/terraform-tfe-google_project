@@ -100,7 +100,7 @@ module "tfe_workspace" {
       category = "terraform"
     },
     {
-      key      = "google_project"
+      key      = "project_id"
       value    = module.google_project[each.key].project_id
       category = "terraform"
     },
