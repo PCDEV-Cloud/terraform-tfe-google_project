@@ -27,7 +27,8 @@ module "google_project" {
     "cloudresourcemanager.googleapis.com",
     "iamcredentials.googleapis.com",
     "iam.googleapis.com",
-    "sts.googleapis.com"
+    "sts.googleapis.com",
+    "serviceusage.googleapis.com"
   ]
 
   depends_on = [
