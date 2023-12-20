@@ -17,7 +17,7 @@ module "google_project" {
   project_id               = local.naming[each.value].google_project.project_id
   randomize_project_id     = var.randomize_name
   parent                   = module.google_folders.folders[0].name
-  billing_account          = try(var.google_config.projects[each.value].billing_account, null)
+  billing_account          = var.google_config.billing_account
   skip_delete              = try(var.google_config.projects[each.value].skip_delete, false)
   create_default_network   = try(var.google_config.projects[each.value].create_default_network, true)
   labels                   = merge(local.naming[each.value].google_project.labels, try(var.google_config.projects[each.value].labels, {}))
