@@ -51,9 +51,9 @@ module "google_iam-tfe-oidc" {
     }
   ]
 
-  randomize_identity_pool_id   = true
-  randomize_provider_id        = true
-  randomize_service_account_id = true
+  randomize_identity_pool_id   = var.google_config.randomize_identity_pool_id
+  randomize_provider_id        = var.google_config.randomize_provider_id
+  randomize_service_account_id = var.google_config.randomize_service_account_id
 
   depends_on = [
     module.google_project
