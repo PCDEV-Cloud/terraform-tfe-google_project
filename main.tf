@@ -15,9 +15,9 @@ module "google_project" {
 
   name                     = local.naming[each.value].google_project.name
   project_id               = local.naming[each.value].google_project.project_id
-  randomize_project_id     = var.randomize_name
-  parent                   = module.google_folders.folders[0].name
+  randomize_project_id     = var.google_config.randomize_project_id
   billing_account          = var.google_config.billing_account
+  parent                   = module.google_folders.folders[0].name
   skip_delete              = try(var.google_config.projects[each.value].skip_delete, false)
   create_default_network   = try(var.google_config.projects[each.value].create_default_network, true)
   labels                   = merge(local.naming[each.value].google_project.labels, try(var.google_config.projects[each.value].labels, {}))
@@ -46,7 +46,7 @@ module "google_iam-tfe-oidc" {
     {
       organization    = var.tfe_config.organization
       project         = var.name
-      workspaces      = [module.google_project[each.value].project_id]
+      workspaces      = [local.naming[each.value].google_project.project_id]
       split_run_phase = false
     }
   ]
@@ -73,7 +73,7 @@ module "tfe_workspace" {
 
   organization                = var.tfe_config.organization
   project                     = module.tfe_project.name
-  name                        = module.google_project[each.key].project_id
+  name                        = local.naming[each.value].google_project.project_id
   description                 = try(var.tfe_config.workspaces[each.value].description, "The ${upper(each.key)} environment of ${var.name} project.")
   execution_mode              = try(var.tfe_config.workspaces[each.value].execution_mode, "remote")
   apply_method                = try(var.tfe_config.workspaces[each.value].apply_method, "auto")

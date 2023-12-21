@@ -18,9 +18,10 @@ variable "environments" {
 
 variable "google_config" {
   type = object({
-    parent          = string
-    billing_account = optional(string, null)
-    projects        = optional(map(any), {})
+    parent               = string
+    randomize_project_id = optional(bool, true)
+    billing_account      = optional(string, null)
+    projects             = optional(map(any), {})
   })
 }
 
