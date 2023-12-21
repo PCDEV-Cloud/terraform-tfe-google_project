@@ -69,6 +69,10 @@ module "tfe_project" {
 
   organization = var.tfe_config.organization
   name         = var.name
+
+  depends_on = [
+    module.google_folders
+  ]
 }
 
 module "tfe_workspace" {
