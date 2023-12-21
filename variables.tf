@@ -3,12 +3,6 @@ variable "name" {
   description = ""
 }
 
-variable "randomize_name" {
-  type        = bool
-  default     = false
-  description = "If true, adds a 6-digit random string preceded by a dash. The 'name' variable cannot then be longer than 23 characters."
-}
-
 variable "environments" {
   type        = list(string)
   description = ""
@@ -26,6 +20,7 @@ variable "google_config" {
     billing_account              = optional(string, null)
     projects                     = optional(map(any), {})
   })
+  description = ""
 }
 
 variable "tfe_config" {
@@ -33,4 +28,5 @@ variable "tfe_config" {
     organization = string
     workspaces   = optional(map(any), {})
   })
+  description = ""
 }
