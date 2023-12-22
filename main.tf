@@ -33,10 +33,12 @@ module "google_project" {
 }
 
 resource "terraform_data" "google_project" {
-  input = { for i in var.environments : i => module.google_project[i].project_id }
+  for_each = toset(var.environments)
+
+  input = module.google_project[each.value].project_id
 
   provisioner "local-exec" {
-    command = "sleep 30s"
+    command = "sleep 30s" # TODO: move sleep value to variable
   }
 }
 
@@ -44,7 +46,7 @@ module "google_iam-tfe-oidc" {
   source   = "github.com/PCDEV-Cloud/terraform-google-iam//modules/iam-tfe-oidc"
   for_each = toset(var.environments)
 
-  project = terraform_data.google_project.output[each.value]
+  project = terraform_data.google_project[each.value].output
 
   access_configuration = [
     {
