@@ -30,10 +30,6 @@ module "google_project" {
     "sts.googleapis.com",
     "serviceusage.googleapis.com"
   ]
-
-  # depends_on = [
-  #   module.google_folders
-  # ]
 }
 
 resource "terraform_data" "google_project" {
@@ -42,17 +38,12 @@ resource "terraform_data" "google_project" {
   provisioner "local-exec" {
     command = "sleep 30s"
   }
-
-  # depends_on = [
-  #   module.google_project
-  # ]
 }
 
 module "google_iam-tfe-oidc" {
   source   = "github.com/PCDEV-Cloud/terraform-google-iam//modules/iam-tfe-oidc"
   for_each = toset(var.environments)
 
-  # project = module.google_project[each.value].project_id
   project = terraform_data.google_project.output[each.value]
 
   access_configuration = [
@@ -67,11 +58,6 @@ module "google_iam-tfe-oidc" {
   randomize_identity_pool_id   = var.google_config.randomize_identity_pool_id
   randomize_provider_id        = var.google_config.randomize_provider_id
   randomize_service_account_id = var.google_config.randomize_service_account_id
-
-  # depends_on = [
-  #   module.google_project,
-  #   terraform_data.google_project
-  # ]
 }
 
 ################################################################################
