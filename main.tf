@@ -53,7 +53,7 @@ module "google_iam-tfe-oidc" {
   for_each = toset(var.environments)
 
   # project = module.google_project[each.value].project_id
-  project = terraform_data.google_project[each.value]
+  project = terraform_data.google_project.output[each.value]
 
   access_configuration = [
     {
