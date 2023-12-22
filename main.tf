@@ -40,7 +40,7 @@ resource "terraform_data" "google_project" {
   input = { for i in var.environments : i => module.google_project[i].project_id }
 
   provisioner "local-exec" {
-    command = "sleep 10"
+    command = "sleep 30s"
   }
 
   # depends_on = [
