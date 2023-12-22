@@ -36,6 +36,18 @@ module "google_project" {
   ]
 }
 
+resource "terraform_data" "google_project" {
+  input = { for i in var.environments : i => module.google_project[i].project_id }
+
+  provisioner "local-exec" {
+    command = "sleep 10"
+  }
+
+  depends_on = [
+    module.google_project
+  ]
+}
+
 module "google_iam-tfe-oidc" {
   source   = "github.com/PCDEV-Cloud/terraform-google-iam//modules/iam-tfe-oidc"
   for_each = toset(var.environments)
@@ -56,7 +68,8 @@ module "google_iam-tfe-oidc" {
   randomize_service_account_id = var.google_config.randomize_service_account_id
 
   depends_on = [
-    module.google_project
+    module.google_project,
+    terraform_data.google_project
   ]
 }
 
