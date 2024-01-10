@@ -28,13 +28,11 @@ variable "google_config" {
 
 variable "tfe_config" {
   type = object({
-    enable       = bool
+    enable       = optional(bool, true)
     organization = optional(string)
     workspaces   = optional(map(any), {})
   })
-  default = {
-    enable = true
-  }
+  default     = {}
   description = ""
 
   validation {
