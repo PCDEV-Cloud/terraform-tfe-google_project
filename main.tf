@@ -81,7 +81,7 @@ module "tfe_project" {
 
 module "tfe_workspace" {
   source   = "github.com/PCDEV-Cloud/terraform-tfe-tfe_workspace?ref=v1.2.0"
-  for_each = var.tfe_config.enable ? toset(var.environments) : toset({})
+  for_each = toset(var.tfe_config.enable ? var.environments : [])
 
   organization                = var.tfe_config.organization
   project                     = module.tfe_project.name
