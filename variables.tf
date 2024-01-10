@@ -7,7 +7,10 @@ variable "environments" {
   type        = list(string)
   description = ""
 
-  # Only letters and numbers
+  validation {
+    condition     = alltrue([for i in var.environments : can(regex("^[a-zA-Z0-9]+$", i))])
+    error_message = "Environments can only contain lowercase letters and numbers."
+  }
 }
 
 variable "google_config" {
@@ -25,8 +28,17 @@ variable "google_config" {
 
 variable "tfe_config" {
   type = object({
-    organization = string
+    enable       = bool
+    organization = optional(string)
     workspaces   = optional(map(any), {})
   })
+  default = {
+    enable = true
+  }
   description = ""
+
+  validation {
+    condition     = var.tfe_config.enable && length(var.tfe_config.organization) > 0
+    error_message = "If config is enabled, the organization must be specified."
+  }
 }

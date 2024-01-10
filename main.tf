@@ -23,13 +23,15 @@ module "google_project" {
   labels                   = merge(local.naming[each.value].google_project.labels, try(var.google_config.projects[each.value].labels, {}))
   enable_apis_and_services = true
 
-  apis_and_services = [
+  apis_and_services = concat([
     "cloudresourcemanager.googleapis.com",
     "iamcredentials.googleapis.com",
     "iam.googleapis.com",
     "sts.googleapis.com",
     "serviceusage.googleapis.com"
-  ]
+    ],
+    try(var.google_config.projects[each.value].apis_and_services, [])
+  )
 }
 
 resource "terraform_data" "google_project" {
@@ -79,7 +81,7 @@ module "tfe_project" {
 
 module "tfe_workspace" {
   source   = "github.com/PCDEV-Cloud/terraform-tfe-tfe_workspace?ref=v1.2.0"
-  for_each = toset(var.environments)
+  for_each = var.tfe_config.enable ? toset(var.environments) : toset({})
 
   organization                = var.tfe_config.organization
   project                     = module.tfe_project.name
