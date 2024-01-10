@@ -36,7 +36,7 @@ variable "tfe_config" {
   description = ""
 
   validation {
-    condition     = var.tfe_config.enable && length(var.tfe_config.organization) > 0
+    condition     = var.tfe_config.enable ? length(var.tfe_config.organization) > 0 : true
     error_message = "If config is enabled, the organization must be specified."
   }
 }
