@@ -133,9 +133,4 @@ module "tfe_workspace" {
       category = "env"
     }
   ]
-
-  depends_on = [
-    module.google_project,
-    module.tfe_project
-  ]
 }
