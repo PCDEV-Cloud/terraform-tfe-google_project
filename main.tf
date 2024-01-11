@@ -70,6 +70,7 @@ module "google_iam-tfe-oidc" {
 
 module "tfe_project" {
   source = "github.com/PCDEV-Cloud/terraform-tfe-tfe_project?ref=v1.2.0"
+  count  = var.tfe_config.enable ? 1 : 0
 
   organization = var.tfe_config.organization
   name         = var.name
@@ -84,7 +85,7 @@ module "tfe_workspace" {
   for_each = toset(var.tfe_config.enable ? var.environments : [])
 
   organization                = var.tfe_config.organization
-  project                     = module.tfe_project.name
+  project                     = module.tfe_project[0].name
   name                        = local.naming[each.value].google_project.project_id
   description                 = try(var.tfe_config.workspaces[each.value].description, "The ${upper(each.key)} environment of ${var.name} project.")
   execution_mode              = try(var.tfe_config.workspaces[each.value].execution_mode, "remote")
