@@ -63,4 +63,8 @@ module "tfe_workspace" {
     ],
     try(var.tfe_config.workspaces[each.value].variables, [])
   )
+
+  depends_on = [
+    module.tfe_project
+  ]
 }
