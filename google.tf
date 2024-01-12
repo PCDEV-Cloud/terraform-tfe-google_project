@@ -3,14 +3,14 @@
 ################################################################################
 
 module "google_folders" {
-  source = "github.com/PCDEV-Cloud/terraform-google-organization//modules/folders?ref=v1.1.0"
+  source = "github.com/PCDEV-Cloud/terraform-google-organization//modules/folders?ref=v1.2.0"
 
   parent  = var.google_config.parent
   folders = [{ display_name = var.name }]
 }
 
 module "google_project" {
-  source   = "github.com/PCDEV-Cloud/terraform-google-organization//modules/project?ref=v1.1.0"
+  source   = "github.com/PCDEV-Cloud/terraform-google-organization//modules/project?ref=v1.2.0"
   for_each = toset(var.environments)
 
   name                     = local.naming[each.value].google_project.name
