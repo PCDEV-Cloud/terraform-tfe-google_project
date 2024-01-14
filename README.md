@@ -23,7 +23,7 @@ This module is used to create and manage projects based on the infrastructure bu
 
 ```hcl
 module "project" {
-  source = "github.com/PCDEV-Cloud/terraform-tfe-google_project"
+  source = "github.com/PCDEV-Cloud/terraform-tfe-google_project?ref=v1.0.1"
 
   name         = "Example-Project"
   environments = ["staging", "uat", "production"]
