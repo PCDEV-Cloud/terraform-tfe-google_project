@@ -1,5 +1,5 @@
 module "project" {
-  source = "github.com/PCDEV-Cloud/terraform-tfe-google_project"
+  source = "github.com/PCDEV-Cloud/terraform-tfe-google_project?ref=v1.0.1"
 
   name         = "Simple-Project"
   environments = ["staging", "production"]
