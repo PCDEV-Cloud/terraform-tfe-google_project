@@ -4,7 +4,7 @@
 
 module "tfe_project" {
   source = "github.com/PCDEV-Cloud/terraform-tfe-tfe_project?ref=v1.2.0"
-  # count  = var.tfe_config.enable ? 1 : 0
+  count  = var.tfe_config.enable ? 1 : 0
 
   organization = var.tfe_config.organization
   name         = var.name
