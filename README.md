@@ -7,8 +7,8 @@ This module is used to create and manage projects based on the infrastructure bu
 1. Create a ready-made environment/project in Google Cloud Platform for each environment in the project.
 2. Create a project and workspaces for each environment. Each workspace will be automatically connected to the project in Google Cloud via the OIDC provider.
 
-> **Info**
->
+> [!NOTE]
+> 
 > This module consists of other modules:
 > 
 > - [terraform-google-organization//modules/project](https://github.com/PCDEV-Cloud/terraform-google-organization/tree/main/modules/project)
@@ -40,5 +40,5 @@ module "project" {
 
 ## Examples
 
-- [complete](https://github.com/PCDEV-Cloud/terraform-tfe-google_project/tree/main/examples/complete) - Creates project with 3 environments and fully custom settings
-- [simple](https://github.com/PCDEV-Cloud/terraform-tfe-google_project/tree/main/examples/simple) - Creates project with 3 environments with the minimum settings necessary to start
+- [complete](https://github.com/PCDEV-Cloud/terraform-tfe-google_project/tree/main/examples/complete) - Creates project with 2 environments and fully custom settings
+- [simple](https://github.com/PCDEV-Cloud/terraform-tfe-google_project/tree/main/examples/simple) - Creates project with 2 environments with the minimum settings necessary to start
