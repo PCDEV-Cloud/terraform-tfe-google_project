@@ -49,7 +49,7 @@ resource "terraform_data" "google_project" {
 }
 
 module "google_iam-tfe-oidc" {
-  source   = "github.com/PCDEV-Cloud/terraform-google-iam//modules/iam-tfe-oidc"
+  source   = "github.com/PCDEV-Cloud/terraform-google-iam//modules/iam-tfe-oidc?ref=v1.2.0"
   for_each = toset(var.environments)
 
   project = terraform_data.google_project[each.value].output
