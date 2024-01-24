@@ -1,11 +1,11 @@
 variable "name" {
   type        = string
-  description = ""
+  description = "Name of the project."
 }
 
 variable "environments" {
   type        = list(string)
-  description = ""
+  description = "List of project's environment. Each environment creates one Terraform Cloud Workspace and one Google Cloud Project."
 
   validation {
     condition     = alltrue([for i in var.environments : can(regex("^[a-zA-Z0-9]+$", i))])
@@ -23,7 +23,7 @@ variable "google_config" {
     billing_account              = optional(string, null)
     projects                     = optional(any, {})
   })
-  description = ""
+  description = "Custom configuration of Google Cloud Projects."
 }
 
 variable "tfe_config" {
@@ -33,7 +33,7 @@ variable "tfe_config" {
     workspaces   = optional(any, {})
   })
   default     = {}
-  description = ""
+  description = "Custom configuration of Terraform Cloud Workspaces."
 
   validation {
     condition     = var.tfe_config.enable ? length(var.tfe_config.organization) > 0 : true
