@@ -21,7 +21,7 @@ variable "google_config" {
     randomize_provider_id        = optional(bool, true)
     randomize_service_account_id = optional(bool, true)
     billing_account              = optional(string, null)
-    projects                     = optional(map(any), {})
+    projects                     = optional(any, {})
   })
   description = ""
 }
@@ -30,7 +30,7 @@ variable "tfe_config" {
   type = object({
     enable       = optional(bool, true)
     organization = optional(string)
-    workspaces   = optional(map(any), {})
+    workspaces   = optional(any, {})
   })
   default     = {}
   description = ""
