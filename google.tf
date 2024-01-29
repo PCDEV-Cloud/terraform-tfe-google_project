@@ -59,7 +59,7 @@ module "google_iam-tfe-oidc" {
       organization    = var.tfe_config.organization
       project         = var.name
       workspaces      = [local.naming[each.value].google_project.project_id]
-      split_run_phase = false
+      split_run_phase = try(var.tfe_config.workspaces[each.key].split_run_phase, false)
     }
   ]
 

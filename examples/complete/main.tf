@@ -1,5 +1,5 @@
 module "project" {
-  source = "github.com/PCDEV-Cloud/terraform-tfe-google_project"
+  source = "../../"
 
   name         = "Example-Project"
   environments = ["staging", "production"]
@@ -53,6 +53,7 @@ module "project" {
       terraform_working_directory = "/terraform/projects/example-project/staging"
       ssh_key                     = null
       allow_destroy_plan          = true
+      split_run_phase             = true
 
       version_control = null
 

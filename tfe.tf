@@ -35,32 +35,13 @@ module "tfe_workspace" {
 
   variables = concat(
     [
-      {
-        key      = "environment"
-        value    = lower(each.key)
-        category = "terraform"
-      },
-      {
-        key      = "project_id"
-        value    = module.google_project[each.key].project_id
-        category = "terraform"
-      },
-      {
-        key      = "TFC_GCP_PROVIDER_AUTH"
-        value    = true
-        category = "env"
-      },
-      {
-        key      = "TFC_GCP_RUN_SERVICE_ACCOUNT_EMAIL"
-        value    = module.google_iam-tfe-oidc[each.key].apply_service_account_emails[0]
-        category = "env"
-      },
-      {
-        key      = "TFC_GCP_WORKLOAD_PROVIDER_NAME"
-        value    = module.google_iam-tfe-oidc[each.key].provider_names[0]
-        category = "env"
-      }
+      { key = "environment", value = lower(each.key), category = "terraform" },
+      { key = "project_id", value = module.google_project[each.key].project_id, category = "terraform" },
+      { key = "TFC_GCP_PROVIDER_AUTH", value = true, category = "env" },
+      { key = "TFC_GCP_WORKLOAD_PROVIDER_NAME", value = module.google_iam-tfe-oidc[each.key].provider_names[0], category = "env" }
     ],
+    try(var.tfe_config.workspaces[each.key].split_run_phase, false) == false ? [{ key = "TFC_GCP_RUN_SERVICE_ACCOUNT_EMAIL", value = module.google_iam-tfe-oidc[each.key].apply_service_account_emails[0], category = "env" }] : [],
+    try(var.tfe_config.workspaces[each.key].split_run_phase, false) == true ? [{ key = "TFC_GCP_APPLY_SERVICE_ACCOUNT_EMAIL", value = module.google_iam-tfe-oidc[each.key].apply_service_account_emails[0], category = "env" }, { key = "TFC_GCP_PLAN_SERVICE_ACCOUNT_EMAIL", value = module.google_iam-tfe-oidc[each.key].plan_service_account_emails[0], category = "env" }] : [],
     try(var.tfe_config.workspaces[each.value].variables, [])
   )
 }
